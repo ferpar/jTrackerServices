@@ -1,4 +1,4 @@
-const books = [
+[
     {
         "author": "Chinua Achebe",
         "country": "Nigeria",
@@ -22,7 +22,5 @@ const books = [
         "pages": 928,
         "title": "The Divine Comedy",
         "year": 1315
-    },
-];
-
-module.exports = books;
+    }
+]
