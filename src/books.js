@@ -15,21 +15,21 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.get("/books", authenticateJWT, (req, res) => {
+app.get("/books", authenticateJWT, async (req, res) => {
 
-const books = booksGateway.getBooks();
+const books = await booksGateway.getBooks();
   console.log("returning books");
   res.json(books);
 });
 
-app.post("/books", authenticateJWT, (req, res) => {
+app.post("/books", authenticateJWT, async (req, res) => {
   const { role } = req.user;
   if (role !== "admin") {
     return res.sendStatus(403);
   }
 
   const book = req.body;
-  booksGateway.saveBook(book);
+  await booksGateway.saveBook(book);
   res.send("Book added successfully");
 });
 

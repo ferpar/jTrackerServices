@@ -6,20 +6,20 @@ class BooksGateway {
     this.db = new jsonDb(this.dbName);
   }
 
-  getBooks() {
-    return this.db.readDb();
+  async getBooks() {
+    return await this.db.readDb();
   }
 
-  saveBook(bookDto) {
-    const books = this.getBooks();
+  async saveBook(bookDto) {
+    const books = await this.getBooks();
     books.push(bookDto);
-    return this.db.writeDb(books);
+    return await this.db.writeDb(books);
   }
 
-  saveBooks(booksDto) {
-    const books = this.getBooks();
+  async saveBooks(booksDto) {
+    const books = await this.getBooks();
     books.push(...booksDto);
-    return this.db.writeDb(books);
+    return await this.db.writeDb(books);
   }
 }
 

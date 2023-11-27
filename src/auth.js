@@ -3,7 +3,9 @@ dotenv.config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
-const users = require("./usersFile");
+
+const UsersGateway = require("./dbGateways/usersGateway");
+const usersGateway = new UsersGateway();
 
 const PORT = process.env.AUTH_PORT;
 const app = express();
@@ -13,7 +15,7 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 const refreshTokens = [];
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   // handling errors
   if (!req.body) {
     res.status(400).send("Request body is missing");
@@ -27,13 +29,12 @@ app.post("/login", (req, res) => {
     res.status(400).send("Password is missing");
   }
 
+
   // Read username and password from request body
   const { username, password } = req.body;
 
-  // Filter from the users array by username and password
-  const user = users.find((user) => {
-    return (user.username === username && user.password) === password;
-  });
+  // Filter from the users array by username and password;
+  const user = await usersGateway.matchUser(username, password)
 
   if (user) {
     const accessToken = jwt.sign(
