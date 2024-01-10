@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const UsersGateway = require("../dbGateways/usersGateway");
-const usersGateway = new UsersGateway();
+const { usersRepository } = require("../core/UsersRepository");
 const tokenManager = require("../core/TokenManager");
 
 const accessTokenSecret = tokenManager.accessTokenSecret;
@@ -12,21 +11,25 @@ const loginController = async (req, res) => {
   // handling errors
   if (!req.body) {
     res.status(400).send("Request body is missing");
+    return
   }
 
   if (!req.body.username) {
     res.status(400).send("Username is missing");
+    return
   }
 
   if (!req.body.password) {
     res.status(400).send("Password is missing");
+    return
   }
 
   // Read username and password from request body
   const { username, password } = req.body;
 
   // Filter from the users array by username and password;
-  const user = await usersGateway.matchUser(username, password);
+  const user = await usersRepository.matchUser(username, password);
+  console.log(user)
 
   if (user) {
     const accessToken = tokenManager.sign(
@@ -40,7 +43,7 @@ const loginController = async (req, res) => {
     );
     tokenManager.addRefreshToken(refreshToken);
 
-    res.json({ accessToken, refreshToken });
+    res.status(200).json({ accessToken, refreshToken });
   } else {
     res.send("Username or password incorrect");
   }

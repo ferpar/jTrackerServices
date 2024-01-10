@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node auth.js",
-    "test": "jest"
+    "test": "jest --watchAll --silent==false"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
