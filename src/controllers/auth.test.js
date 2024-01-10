@@ -1,15 +1,13 @@
-const { loginController, logoutController } = require("./auth");
+const { 
+  loginController, 
+  logoutController,
+  refreshTokenController
+} = require("./auth");
 const { usersRepository } = require("../core/UsersRepository");
 const tokenManager = require("../core/TokenManager"); 
 
 describe("Authentication", () => {
-  beforeEach(() => {
-    tokenManager.reset();
-  })
   describe("Login Controller", () => {
-    it("test test", async () => {
-      expect(true).toBe(true);
-    });
     it("should return 400 if request body is missing", async () => {
       const req = {
         body: null,
@@ -91,7 +89,58 @@ describe("Authentication", () => {
       expect(res.send).toHaveBeenCalledWith("Username or password incorrect");
     });
   });
+  describe("Refresh Token Controller", () => {
+    it("should return 401 if token is missing", async () => {
+      const req = {
+        body: {
+          token: null,
+        },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      };
+      await refreshTokenController(req, res);
+      expect(res.status).toHaveBeenCalledWith(401);
+      expect(res.send).toHaveBeenCalledWith("Token is missing");
+    })
+    it("should return 403 if refresh token is not valid", async () => {
+      const req = {
+        body: {
+          token: "test",
+        },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      };
+      await refreshTokenController(req, res);
+      expect(res.status).toHaveBeenCalledWith(403);
+      expect(res.send).toHaveBeenCalledWith("Refresh token is not valid");
+    })
+    it("should return 403 if token signature is not valid", async () => {
+      tokenManager.addRefreshToken("test");
+      const req = {
+        body: {
+          token: "test",
+        },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      };
+      tokenManager.verify = jest.fn().mockImplementation((token, secret, cb) => {
+        cb(true, null);
+      });
+      await refreshTokenController(req, res);
+      expect(res.status).toHaveBeenCalledWith(403);
+      expect(res.send).toHaveBeenCalledWith("token Signature is not valid");
+    })
+  })
   describe("Logout Controller", () => {
+    beforeEach(() => {
+      tokenManager.reset();
+    })
     it("should return 200 if logout is successful", async () => {
       tokenManager.addRefreshToken("test");
       const req = {

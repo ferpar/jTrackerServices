@@ -52,16 +52,16 @@ const refreshTokenController = (req, res) => {
   const { token } = req.body;
 
   if (!token) {
-    return res.sendStatus(401);
+    return res.status(401).send("Token is missing");
   }
 
   if (!refreshTokens.includes(token)) {
-    return res.sendStatus(403);
+    return res.status(403).send("Refresh token is not valid");
   }
 
   tokenManager.verify(token, refreshTokenSecret, (err, user) => {
     if (err) {
-      return res.sendStatus(403);
+      return res.status(403).send("token Signature is not valid");
     }
     const accessToken = tokenManager.sign(
       { username: user.username, role: user.role },
