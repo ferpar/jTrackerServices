@@ -38,7 +38,7 @@ const loginController = async (req, res) => {
       { username: user.username, role: user.role },
       refreshTokenSecret
     );
-    refreshTokens.push(refreshToken);
+    tokenManager.addRefreshToken(refreshToken);
 
     res.json({ accessToken, refreshToken });
   } else {
@@ -71,4 +71,11 @@ const refreshTokenController = (req, res) => {
   });
 };
 
-module.exports = { loginController, refreshTokenController };
+const logoutController = (req, res) => {
+  const { token } = req.body;
+  tokenManager.removeRefreshToken(token);
+
+  res.send("Logout successful");
+};
+
+module.exports = { loginController, refreshTokenController, logoutController };

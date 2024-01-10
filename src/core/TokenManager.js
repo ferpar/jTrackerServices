@@ -2,8 +2,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 const jwt = require("jsonwebtoken");
 
-const expiresIn = "20m";
-
 class TokenManager {
   accessTokenSecret
   refreshTokenSecret 
