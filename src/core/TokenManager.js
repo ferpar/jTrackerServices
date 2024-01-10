@@ -25,7 +25,15 @@ class TokenManager {
   }
 
   removeRefreshToken(token) {
+    if (!this.refreshTokens.includes(token)) {
+      return false;
+    }
     this.refreshTokens = this.refreshTokens.filter((t) => t !== token);
+    return true
+  }
+
+  reset() {
+    this.refreshTokens = [];
   }
 }
 

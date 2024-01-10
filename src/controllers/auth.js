@@ -11,17 +11,17 @@ const loginController = async (req, res) => {
   // handling errors
   if (!req.body) {
     res.status(400).send("Request body is missing");
-    return
+    return;
   }
 
   if (!req.body.username) {
     res.status(400).send("Username is missing");
-    return
+    return;
   }
 
   if (!req.body.password) {
     res.status(400).send("Password is missing");
-    return
+    return;
   }
 
   // Read username and password from request body
@@ -29,7 +29,6 @@ const loginController = async (req, res) => {
 
   // Filter from the users array by username and password;
   const user = await usersRepository.matchUser(username, password);
-  console.log(user)
 
   if (user) {
     const accessToken = tokenManager.sign(
@@ -75,8 +74,16 @@ const refreshTokenController = (req, res) => {
 };
 
 const logoutController = (req, res) => {
+  if (!req.body.token) {
+    res.status(400).send("Token is missing");
+    return;
+  }
   const { token } = req.body;
-  tokenManager.removeRefreshToken(token);
+  const tokenFound = tokenManager.removeRefreshToken(token);
+  if (!tokenFound) {
+    res.status(200).send("Already logged out");
+    return
+  }
 
   res.send("Logout successful");
 };
