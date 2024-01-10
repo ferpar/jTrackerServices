@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node auth.js",
+    "test": "jest"
+  },
   "dependencies": {
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",

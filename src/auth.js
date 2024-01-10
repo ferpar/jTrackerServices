@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const tokenManager = require("./core/TokenManager");
 const bodyParser = require("body-parser");
 
 const { 
@@ -14,8 +13,6 @@ const PORT = process.env.AUTH_PORT;
 const app = express();
 
 app.use(bodyParser.json());
-const refreshTokens = tokenManager.refreshTokens;
-
 
 app.post("/login", loginController );
 
