@@ -67,4 +67,22 @@ describe("Auth Controller", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalled();
   });
+  it("should return 401 if username or password are incorrect", async () => {
+    usersRepository.matchUser = jest.fn().mockReturnValue(null);
+    const req = {
+      body: {
+        username: "test",
+        password: "test",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
+      json: jest.fn(),
+    };
+    await loginController(req, res);
+    expect(usersRepository.matchUser).toHaveBeenCalledWith("test", "test");
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.send).toHaveBeenCalledWith("Username or password incorrect");
+  });
 });

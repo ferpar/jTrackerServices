@@ -45,7 +45,7 @@ const loginController = async (req, res) => {
 
     res.status(200).json({ accessToken, refreshToken });
   } else {
-    res.send("Username or password incorrect");
+    res.status(401).send("Username or password incorrect");
   }
 };
 
