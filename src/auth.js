@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 
 app.post("/login", loginController );
 
-// endpoint to get new token via refresh
 app.post("/token", refreshTokenController);
 
 app.post("/logout", logoutController);
