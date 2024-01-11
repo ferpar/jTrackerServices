@@ -10,17 +10,35 @@ const refreshTokens = tokenManager.refreshTokens;
 const loginController = async (req, res) => {
   // handling errors
   if (!req.body) {
-    res.status(400).send("Request body is missing");
+    res.status(400).json({
+      success: false,
+      result: {
+        message: "Request body is missing",
+        status: 400,
+      },
+    });
     return;
   }
 
   if (!req.body.username) {
-    res.status(400).send("Username is missing");
+    res.status(400).json({
+      success: false,
+      result: {
+        message: "Username is missing",
+        status: 400,
+      },
+    });
     return;
   }
 
   if (!req.body.password) {
-    res.status(400).send("Password is missing");
+    res.status(400).json({
+      success: false,
+      result: {
+        message: "Password is missing",
+        status: 400,
+      },
+    });
     return;
   }
 
@@ -42,9 +60,23 @@ const loginController = async (req, res) => {
     );
     tokenManager.addRefreshToken(refreshToken);
 
-    res.status(200).json({ accessToken, refreshToken });
+    res.status(200).json({
+      success: true,
+      result: {
+        accessToken,
+        refreshToken,
+        username: user.username,
+        message: "Login successful",
+      },
+    });
   } else {
-    res.status(401).send("Username or password incorrect");
+    res.status(401).json({
+      success: false,
+      result: {
+        message: "Username or password incorrect",
+        status: 401,
+      },
+    });
   }
 };
 
@@ -52,16 +84,34 @@ const refreshTokenController = (req, res) => {
   const { token } = req.body;
 
   if (!token) {
-    return res.status(401).send("Token is missing");
+    return res.status(401).json({
+      success: false,
+      result: {
+        message: "Refresh token is missing",
+        status: 401,
+      },
+    });
   }
 
   if (!refreshTokens.includes(token)) {
-    return res.status(403).send("Refresh token is not valid");
+    return res.status(403).json({
+      success: false,
+      result: {
+        message: "Refresh token is not valid",
+        status: 403,
+      },
+    });
   }
 
   tokenManager.verify(token, refreshTokenSecret, (err, user) => {
     if (err) {
-      return res.status(403).send("token Signature is not valid");
+      return res.status(403).json({
+        success: false,
+        result: {
+          message: "token signature not valid",
+          status: 403,
+        },
+      });
     }
     const accessToken = tokenManager.sign(
       { username: user.username, role: user.role },
@@ -75,17 +125,35 @@ const refreshTokenController = (req, res) => {
 
 const logoutController = (req, res) => {
   if (!req.body.token) {
-    res.status(400).send("Token is missing");
+    res.status(400).json({
+      success: false,
+      result: {
+        message: "Token is missing",
+        status: 400,
+      },
+    });
     return;
   }
   const { token } = req.body;
   const tokenFound = tokenManager.removeRefreshToken(token);
   if (!tokenFound) {
-    res.status(200).send("Already logged out");
-    return
+    res.status(200).json({
+      success: true,
+      result: {
+        message: "Already logged out",
+        status: 200,
+      },
+    });
+    return;
   }
 
-  res.send("Logout successful");
+  res.json({
+    success: true,
+    result: {
+      message: "Logout successful",
+      status: 200,
+    },
+  });
 };
 
 module.exports = { loginController, refreshTokenController, logoutController };
