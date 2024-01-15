@@ -10,8 +10,8 @@ class UsersRepository {
     return await this.usersGateway.getUsers();
   }
 
-  async matchUser(username, password) {
-    return await this.usersGateway.matchUser(username, password);
+  async matchUser(email, password) {
+    return await this.usersGateway.matchUser(email, password);
   }
 }
 const usersRepository = new UsersRepository();

@@ -26,10 +26,10 @@ describe("Authentication", () => {
         }
       })
     });
-    it("should return 400 if username is missing", async () => {
+    it("should return 400 if email is missing", async () => {
       const req = {
         body: {
-          username: null,
+          email: null,
         },
       };
       const res = {
@@ -41,7 +41,7 @@ describe("Authentication", () => {
       expect(res.json).toHaveBeenCalledWith({
         success: false,
         result: {
-          message: "Username is missing",
+          message: "Email is missing",
           status: 400
         }
       });
@@ -49,7 +49,7 @@ describe("Authentication", () => {
     it("should return 400 if password is missing", async () => {
       const req = {
         body: {
-          username: "test",
+          email: "test@test.net",
           password: null,
         },
       };
@@ -68,13 +68,13 @@ describe("Authentication", () => {
       });
     });
 
-    it("should return 200 if username and password are correct", async () => {
+    it("should return 200 if email and password are correct", async () => {
       usersRepository.matchUser = jest
         .fn()
-        .mockReturnValue({ username: "test", password: "test" });
+        .mockReturnValue({ email: "test@test.net", password: "test" });
       const req = {
         body: {
-          username: "test",
+          email: "test@test.net",
           password: "test",
         },
       };
@@ -83,23 +83,24 @@ describe("Authentication", () => {
         json: jest.fn(),
       };
       await loginController(req, res);
-      expect(usersRepository.matchUser).toHaveBeenCalledWith("test", "test");
+      expect(usersRepository.matchUser).toHaveBeenCalledWith("test@test.net", "test");
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         success: true,
         result: {
           accessToken: expect.any(String),
           refreshToken: expect.any(String),
-          username: "test",
+          email: "test@test.net",
           message: "Login successful",
         },
       });
     });
-    it("should return 401 if username or password are incorrect", async () => {
+    it("should return 401 if email or password are incorrect", async () => {
+      // stub to force no user found behavior
       usersRepository.matchUser = jest.fn().mockReturnValue(null);
       const req = {
         body: {
-          username: "test",
+          email: "test@test.net",
           password: "test",
         },
       };
@@ -108,12 +109,12 @@ describe("Authentication", () => {
         json: jest.fn(),
       };
       await loginController(req, res);
-      expect(usersRepository.matchUser).toHaveBeenCalledWith("test", "test");
+      expect(usersRepository.matchUser).toHaveBeenCalledWith("test@test.net", "test");
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
         success: false,
         result: {
-          message: "Username or password incorrect",
+          message: "Email or password incorrect",
           status: 401
         }
       });

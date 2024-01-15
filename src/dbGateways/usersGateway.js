@@ -10,9 +10,9 @@ class UsersGateway {
         return await this.db.readDb();
     }
 
-    async matchUser(username, password) {
+    async matchUser(email, password) {
         const users = await this.getUsers();
-        return users.find(user => user.username === username && user.password === password);
+        return users.find(user => user.email === email && user.password === password);
     }
 }
 

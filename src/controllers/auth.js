@@ -20,11 +20,11 @@ const loginController = async (req, res) => {
     return;
   }
 
-  if (!req.body.username) {
+  if (!req.body.email) {
     res.status(400).json({
       success: false,
       result: {
-        message: "Username is missing",
+        message: "Email is missing",
         status: 400,
       },
     });
@@ -42,20 +42,20 @@ const loginController = async (req, res) => {
     return;
   }
 
-  // Read username and password from request body
-  const { username, password } = req.body;
+  // Read email and password from request body
+  const { email, password } = req.body;
 
-  // Filter from the users array by username and password;
-  const user = await usersRepository.matchUser(username, password);
+  // Filter from the users array by email and password;
+  const user = await usersRepository.matchUser(email, password);
 
   if (user) {
     const accessToken = tokenManager.sign(
-      { username: user.username, role: user.role },
+      { email: user.email, role: user.role },
       accessTokenSecret,
       { expiresIn: "20m" }
     );
     const refreshToken = tokenManager.sign(
-      { username: user.username, role: user.role },
+      { email: user.email, role: user.role },
       refreshTokenSecret
     );
     tokenManager.addRefreshToken(refreshToken);
@@ -65,7 +65,7 @@ const loginController = async (req, res) => {
       result: {
         accessToken,
         refreshToken,
-        username: user.username,
+        email: user.email,
         message: "Login successful",
       },
     });
@@ -73,7 +73,7 @@ const loginController = async (req, res) => {
     res.status(401).json({
       success: false,
       result: {
-        message: "Username or password incorrect",
+        message: "Email or password incorrect",
         status: 401,
       },
     });
@@ -114,7 +114,7 @@ const refreshTokenController = (req, res) => {
       });
     }
     const accessToken = tokenManager.sign(
-      { username: user.username, role: user.role },
+      { email: user.email, role: user.role },
       accessTokenSecret,
       { expiresIn: "20m" }
     );
