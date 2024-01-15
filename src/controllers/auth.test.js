@@ -88,7 +88,7 @@ describe("Authentication", () => {
       expect(res.json).toHaveBeenCalledWith({
         success: true,
         result: {
-          accessToken: expect.any(String),
+          token: expect.any(String),
           refreshToken: expect.any(String),
           email: "test@test.net",
           message: "Login successful",
