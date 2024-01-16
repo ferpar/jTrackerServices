@@ -1,3 +1,6 @@
 node_modules
 .env
 package-lock.json
+booksFile.json
+applicationsFile.json
+usersFile.json
