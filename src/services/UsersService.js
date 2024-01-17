@@ -1,6 +1,6 @@
 const UsersRepo = require("../dbRepos/usersRepo");
 
-class UsersGateway {
+class UsersService {
   usersRepo;
   constructor() {
     this.usersRepo = new UsersRepo();
@@ -14,6 +14,6 @@ class UsersGateway {
     return await this.usersRepo.matchUser(email, password);
   }
 }
-const usersGateway = new UsersGateway();
+const usersService = new UsersService();
 
-module.exports = { usersGateway };
+module.exports = { usersService };

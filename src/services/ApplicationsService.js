@@ -1,6 +1,6 @@
 const ApplicationsRepo = require('../dbRepos/applicationsRepo');
 
-class ApplicationsGateway {
+class ApplicationsService {
     applicationsRepo;
     constructor() {
         this.applicationsRepo = new ApplicationsRepo();
@@ -15,6 +15,6 @@ class ApplicationsGateway {
     }
 }
 
-const applicationsGateway = new ApplicationsGateway();
+const applicationsService = new ApplicationsService();
 
-module.exports = { applicationsGateway };
+module.exports = { applicationsService };

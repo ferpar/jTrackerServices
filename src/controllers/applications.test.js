@@ -1,4 +1,4 @@
-const { applicationsGateway } = require("../core/ApplicationsGateway");
+const { applicationsService } = require("../services/ApplicationsService");
 const { getApplicationsStub } = require("../testTools/getApplicationsStub");
 const { getApplications } = require("./applications");
 describe("Applications", () => {
@@ -15,7 +15,7 @@ describe("Applications", () => {
         const res = {
             json: jest.fn()
         }
-        applicationsGateway.getApplications = jest.fn().mockReturnValue(getApplicationsStub);
+        applicationsService.getApplications = jest.fn().mockReturnValue(getApplicationsStub);
         // act
         await getApplications(req, res);
         // assert
