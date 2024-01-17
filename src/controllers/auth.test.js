@@ -92,6 +92,7 @@ describe("Authentication", () => {
           refreshToken: expect.any(String),
           email: "test@test.net",
           message: "Login successful",
+          status: 200
         },
       });
     });

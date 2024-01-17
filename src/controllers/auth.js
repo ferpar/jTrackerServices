@@ -50,12 +50,12 @@ const loginController = async (req, res) => {
 
   if (user) {
     const accessToken = tokenManager.sign(
-      { email: user.email, role: user.role },
+      { email: user.email, role: user.role, userId: user.userId },
       accessTokenSecret,
       { expiresIn: "20m" }
     );
     const refreshToken = tokenManager.sign(
-      { email: user.email, role: user.role },
+      { email: user.email, role: user.role, userId: user.userId },
       refreshTokenSecret
     );
     tokenManager.addRefreshToken(refreshToken);
@@ -67,6 +67,7 @@ const loginController = async (req, res) => {
         refreshToken,
         email: user.email,
         message: "Login successful",
+        status: 200,
       },
     });
   } else {
@@ -114,7 +115,7 @@ const refreshTokenController = (req, res) => {
       });
     }
     const accessToken = tokenManager.sign(
-      { email: user.email, role: user.role },
+      { email: user.email, role: user.role, userId: user.userId },
       accessTokenSecret,
       { expiresIn: "20m" }
     );

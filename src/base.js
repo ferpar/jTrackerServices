@@ -3,40 +3,36 @@ dotenv.config();
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const fs = require("fs");
-const BooksGateway = require("./dbGateways/booksGateway");
-const booksGateway = new BooksGateway();
+const { getApplications, saveApplication } = require("./controllers/applications");
+const ApplicationsGateway = require("./dbGateways/applicationsGateway");
+const applicationsGateway = new ApplicationsGateway();
 
-const PORT = process.env.BOOKS_PORT;
+const PORT = process.env.APPLICATIONS_PORT;
 
 const authenticateJWT = require("./authMiddleware");
+const { get } = require("http");
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.get("/books", authenticateJWT, async (req, res) => {
+app.get("/applications", authenticateJWT, getApplications);
 
-const books = await booksGateway.getBooks();
-  console.log("returning books");
-  res.json(books);
-});
-
-app.post("/books", authenticateJWT, async (req, res) => {
+app.post("/applications", authenticateJWT, async (req, res) => {
   const { role } = req.user;
   if (role !== "admin") {
     return res.sendStatus(403);
   }
 
-  const book = req.body;
-  await booksGateway.saveBook(book);
-  res.send("Book added successfully");
+  const application = req.body;
+  await applicationsGateway.saveApplication(application);
+  res.send("Application added successfully");
 });
 
 app.get("/", (req, res) => {
-  res.send("You reached the books service");
+  res.send("You reached the applications service");
 });
 
 app.listen(PORT, () => {
-  console.log(`Books service is running on port ${PORT}`);
+  console.log(`Applications service is running on port ${PORT}`);
 });
