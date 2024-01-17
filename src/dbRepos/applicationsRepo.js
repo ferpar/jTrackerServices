@@ -1,7 +1,7 @@
 
 const { jsonDb } = require("./jsonDb");
 
-class ApplicationsGateway {
+class ApplicationsRepo {
   constructor(dbName = "applicationsFile.json") {
     this.dbName = dbName;
     this.db = new jsonDb(this.dbName);
@@ -26,4 +26,4 @@ class ApplicationsGateway {
   }
 }
 
-module.exports = ApplicationsGateway;
+module.exports = ApplicationsRepo;

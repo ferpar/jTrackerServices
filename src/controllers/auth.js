@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const { usersRepository } = require("../core/UsersRepository");
+const { usersGateway } = require("../core/UsersGateway");
 const tokenManager = require("../core/TokenManager");
 
 const accessTokenSecret = tokenManager.accessTokenSecret;
@@ -46,7 +46,7 @@ const loginController = async (req, res) => {
   const { email, password } = req.body;
 
   // Filter from the users array by email and password;
-  const user = await usersRepository.matchUser(email, password);
+  const user = await usersGateway.matchUser(email, password);
 
   if (user) {
     const accessToken = tokenManager.sign(

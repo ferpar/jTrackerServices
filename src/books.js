@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const fs = require("fs");
-const BooksGateway = require("./dbGateways/booksGateway");
+const BooksGateway = require("./dbRepos/booksGateway");
 const booksGateway = new BooksGateway();
 
 const PORT = process.env.BOOKS_PORT;

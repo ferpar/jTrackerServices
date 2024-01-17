@@ -3,7 +3,7 @@ const {
   logoutController,
   refreshTokenController
 } = require("./auth");
-const { usersRepository } = require("../core/UsersRepository");
+const { usersGateway } = require("../core/UsersGateway");
 const tokenManager = require("../core/TokenManager"); 
 
 describe("Authentication", () => {
@@ -69,7 +69,7 @@ describe("Authentication", () => {
     });
 
     it("should return 200 if email and password are correct", async () => {
-      usersRepository.matchUser = jest
+      usersGateway.matchUser = jest
         .fn()
         .mockReturnValue({ email: "test@test.net", password: "test" });
       const req = {
@@ -83,7 +83,7 @@ describe("Authentication", () => {
         json: jest.fn(),
       };
       await loginController(req, res);
-      expect(usersRepository.matchUser).toHaveBeenCalledWith("test@test.net", "test");
+      expect(usersGateway.matchUser).toHaveBeenCalledWith("test@test.net", "test");
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         success: true,
@@ -98,7 +98,7 @@ describe("Authentication", () => {
     });
     it("should return 401 if email or password are incorrect", async () => {
       // stub to force no user found behavior
-      usersRepository.matchUser = jest.fn().mockReturnValue(null);
+      usersGateway.matchUser = jest.fn().mockReturnValue(null);
       const req = {
         body: {
           email: "test@test.net",
@@ -110,7 +110,7 @@ describe("Authentication", () => {
         json: jest.fn(),
       };
       await loginController(req, res);
-      expect(usersRepository.matchUser).toHaveBeenCalledWith("test@test.net", "test");
+      expect(usersGateway.matchUser).toHaveBeenCalledWith("test@test.net", "test");
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
         success: false,

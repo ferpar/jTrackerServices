@@ -4,8 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const { getApplications, saveApplication } = require("./controllers/applications");
-const ApplicationsGateway = require("./dbGateways/applicationsGateway");
-const applicationsGateway = new ApplicationsGateway();
+const ApplicationsRepo = require("./dbRepos/applicationsRepo");
+const applicationsRepo = new ApplicationsRepo();
 
 const PORT = process.env.APPLICATIONS_PORT;
 
@@ -24,7 +24,7 @@ app.post("/applications", authenticateJWT, async (req, res) => {
   }
 
   const application = req.body;
-  await applicationsGateway.saveApplication(application);
+  await applicationsRepo.saveApplication(application);
   res.send("Application added successfully");
 });
 

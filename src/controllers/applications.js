@@ -1,4 +1,4 @@
-const { applicationsRepository } = require("../core/ApplicationsRepository");
+const { applicationsGateway } = require("../core/ApplicationsGateway");
 
 const getApplications = async (req, res) => {
   // this controller is protected by the authenticateJWT middleware
@@ -8,7 +8,7 @@ const getApplications = async (req, res) => {
     return res.sendStatus(403);
   }
   try {
-    const applications = await applicationsRepository.getApplications(userId);
+    const applications = await applicationsGateway.getApplications(userId);
     res.json({
       success: true,
       result: {
@@ -48,7 +48,7 @@ const saveApplication = async (req, res) => {
   }
   try {
     const application = req.body;
-    await applicationsRepository.saveApplication(application);
+    await applicationsGateway.saveApplication(application);
     res.json({
       success: true,
       result: {
