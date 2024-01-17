@@ -10,7 +10,6 @@ const applicationsGateway = new ApplicationsGateway();
 const PORT = process.env.APPLICATIONS_PORT;
 
 const authenticateJWT = require("./authMiddleware");
-const { get } = require("http");
 
 const app = express();
 

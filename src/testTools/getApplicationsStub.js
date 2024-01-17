@@ -1,4 +1,4 @@
-export function getApplicationsStub() {
+function getApplicationsStub() {
   return [
     {
       userId: 1,
@@ -60,3 +60,5 @@ export function getApplicationsStub() {
     },
   ];
 }
+
+module.exports = { getApplicationsStub };
