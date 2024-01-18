@@ -52,7 +52,7 @@ const loginController = async (req, res) => {
     const accessToken = tokenManager.sign(
       { email: user.email, role: user.role, userId: user.userId },
       accessTokenSecret,
-      { expiresIn: "20m" }
+      { expiresIn: "60m" }
     );
     const refreshToken = tokenManager.sign(
       { email: user.email, role: user.role, userId: user.userId },

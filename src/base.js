@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
+const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -13,20 +14,13 @@ const authenticateJWT = require("./authMiddleware");
 
 const app = express();
 
+app.use(cors());
+
 app.use(bodyParser.json());
 
 app.get("/applications", authenticateJWT, getApplications);
 
-app.post("/applications", authenticateJWT, async (req, res) => {
-  const { role } = req.user;
-  if (role !== "admin") {
-    return res.sendStatus(403);
-  }
-
-  const application = req.body;
-  await applicationsRepo.saveApplication(application);
-  res.send("Application added successfully");
-});
+app.post("/applications", authenticateJWT, saveApplication);
 
 app.get("/", (req, res) => {
   res.send("You reached the applications service");

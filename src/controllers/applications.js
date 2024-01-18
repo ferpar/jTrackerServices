@@ -18,7 +18,7 @@ const getApplications = async (req, res) => {
       },
     });
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     res.status(500).json({
       success: false,
       result: {
@@ -32,10 +32,16 @@ const getApplications = async (req, res) => {
 const saveApplication = async (req, res) => {
   // this controller is protected by the authenticateJWT middleware
   const user = req?.user;
-  const userId = user?.id;
+  const userId = user?.userId;
   if (!user || !userId) {
     return res.sendStatus(403);
   }
+
+  // const { role } = req.user;
+  // if (role !== "admin") {
+  //   return res.sendStatus(403);
+  // }
+
   if (!req.body) {
     res.status(400).json({
       success: false,
@@ -49,7 +55,7 @@ const saveApplication = async (req, res) => {
   try {
     const application = req.body;
     await applicationsService.saveApplication(application);
-    res.json({
+    res.status(200).json({
       success: true,
       result: {
         message: "Application added successfully",
@@ -57,7 +63,7 @@ const saveApplication = async (req, res) => {
       },
     });
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     res.status(500).json({
       success: false,
       result: {

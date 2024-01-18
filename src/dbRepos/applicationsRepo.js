@@ -7,10 +7,9 @@ class ApplicationsRepo {
     this.db = new jsonDb(this.dbName);
   }
 
-  async getApplications(userId) {
+  async getApplications() {
     const allApplications = await this.db.readDb();
-    const filteredByUser = allApplications.filter((application) => application.userId === userId);
-    return filteredByUser;
+    return allApplications
   }
 
   async saveApplication(applicationDto) {
