@@ -4,3 +4,4 @@ package-lock.json
 booksFile.json
 applicationsFile.json
 usersFile.json
+dockerdata
