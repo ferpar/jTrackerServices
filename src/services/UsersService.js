@@ -1,4 +1,4 @@
-const UsersRepo = require("../dbRepos/usersRepo");
+const UsersRepo = require("../repos/usersRepo");
 
 class UsersService {
   usersRepo;

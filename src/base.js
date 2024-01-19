@@ -5,7 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const { getApplications, saveApplication } = require("./controllers/applications");
-const ApplicationsRepo = require("./dbRepos/applicationsRepo");
+const ApplicationsRepo = require("./repos/applicationsRepo");
 const applicationsRepo = new ApplicationsRepo();
 
 const PORT = process.env.APPLICATIONS_PORT;

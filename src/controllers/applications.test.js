@@ -1,5 +1,5 @@
 const { applicationsService } = require("../services/ApplicationsService");
-const FakeApplicationsRepo = require("../dbRepos/fakeApplicationsRepo");
+const FakeApplicationsRepo = require("../repos/fakeApplicationsRepo");
 const { getApplicationsStub } = require("../testTools/getApplicationsStub");
 const { getApplications, saveApplication } = require("./applications");
 describe("Applications", () => {
