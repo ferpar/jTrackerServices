@@ -7,9 +7,8 @@ class ApplicationsService {
     }
 
     async getApplications(userId) {
-        const allApplications = await this.applicationsRepo.getApplications(userId);
-        const filteredByUser = allApplications.filter(application => application.userId === userId);
-        return filteredByUser
+        const applications = await this.applicationsRepo.getApplications(userId);
+        return applications
     }
 
     async saveApplication(applicationDto) {

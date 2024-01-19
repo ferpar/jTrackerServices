@@ -6,12 +6,13 @@ describe("Applications", () => {
   let fakeApplicationsRepo;
   beforeEach(() => {
     jest.clearAllMocks();
+    console.error = jest.fn(); 
     fakeApplicationsRepo = new FakeApplicationsRepo();
     // inject the fakeApplication      sendStatus: jest.fn(),sRepo into the applicationsService
     applicationsService.applicationsRepo = fakeApplicationsRepo;
   });
   describe("get Applications", () => {
-    it("should only return applications for the logged in user", async () => {
+    it("should return applications", async () => {
       // arrange
       const req = {
         user: {
@@ -33,9 +34,7 @@ describe("Applications", () => {
         result: {
           message: "Applications returned successfully",
           status: 200,
-          data: getApplicationsStub().filter(
-            (application) => application.userId === 1
-          ),
+          data: getApplicationsStub(),
         },
       });
     });

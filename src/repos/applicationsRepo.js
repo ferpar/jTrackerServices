@@ -1,5 +1,6 @@
 
 const { jsonDb } = require("./jsonDb");
+const mainDb = require("../periphery/mainDb");
 
 class ApplicationsRepo {
   constructor(dbName = "applicationsFile.json") {
@@ -7,9 +8,12 @@ class ApplicationsRepo {
     this.db = new jsonDb(this.dbName);
   }
 
-  async getApplications() {
-    const allApplications = await this.db.readDb();
-    return allApplications
+  async getApplications(userId) {
+    // const allApplications = await this.db.readDb();
+    // return allApplications
+    const allApplications = await mainDb.retrieveApplications(userId);
+    console.log(allApplications);
+    return allApplications;
   }
 
   async saveApplication(applicationDto) {

@@ -18,7 +18,7 @@ const getApplications = async (req, res) => {
       },
     });
   } catch (e) {
-    // console.error(e);
+    console.error(e);
     res.status(500).json({
       success: false,
       result: {
@@ -63,7 +63,7 @@ const saveApplication = async (req, res) => {
       },
     });
   } catch (e) {
-    // console.error(e);
+    console.error(e);
     res.status(500).json({
       success: false,
       result: {
