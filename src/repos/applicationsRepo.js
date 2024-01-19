@@ -11,9 +11,11 @@ class ApplicationsRepo {
   async getApplications(userId) {
     // const allApplications = await this.db.readDb();
     // return allApplications
-    const allApplications = await mainDb.retrieveApplications(userId);
-    console.log(allApplications);
-    return allApplications;
+    const applications = await mainDb.retrieveApplications(userId);
+    console.log(applications);
+    const statuses = await mainDb.retrieveStatuses(userId);
+    console.log(statuses)
+    return applications;
   }
 
   async saveApplication(applicationDto) {

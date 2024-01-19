@@ -37,7 +37,7 @@ function makeMainDb({ dbPool }) {
         insertStatus: async function (statusObj) {
             const { applicationId, status, statusDate, notes } = statusObj;
             const result = await dbPool.query(
-                "INSERT INTO statuses (applicationId, status, statusDate, notes) VALUES ($1, $2, $3, $4) RETURNING *",
+                "INSERT INTO ApplicationStatus (applicationId, status, statusDate, notes) VALUES ($1, $2, $3, $4) RETURNING *",
                 [applicationId, status, statusDate, notes]
             );
             return result.rows[0];
@@ -45,7 +45,7 @@ function makeMainDb({ dbPool }) {
 
         retrieveStatuses: async function (applicationId) {
             const result = await dbPool.query(
-                "SELECT * FROM statuses WHERE applicationId = $1",
+                "SELECT * FROM ApplicationStatus WHERE applicationId = $1",
                 [applicationId]
             );
             return result.rows;
