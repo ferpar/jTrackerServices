@@ -18,11 +18,11 @@ class ApplicationsRepo {
     return await this.db.writeDb(applications);
   }
 
-  async saveApplications(applicationsDto) {
-    const applications = await this.getApplications();
-    applications.push(...applicationsDto);
-    return await this.db.writeDb(applications);
-  }
+  // async saveApplications(applicationsDto) {
+  //   const applications = await this.getApplications();
+  //   applications.push(...applicationsDto);
+  //   return await this.db.writeDb(applications);
+  // }
 }
 
 module.exports = ApplicationsRepo;

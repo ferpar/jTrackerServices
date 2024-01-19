@@ -5,6 +5,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE DATABASE jobTrackerDb;
     \\c jobTrackerDb
     CREATE TABLE JobApplications (
+        userId INT,
         id SERIAL PRIMARY KEY,
         jobTitle VARCHAR(100),
         company VARCHAR(100),

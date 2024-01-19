@@ -3,6 +3,12 @@
     "start": "node auth.js",
     "test": "jest --watchAll --silent==false"
   },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/dbScripts/"
+    ]
+  },
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
