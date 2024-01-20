@@ -1,34 +1,34 @@
 
-const { jsonDb } = require("./jsonDb");
 const mainDb = require("../periphery/mainDb");
-
 class ApplicationsRepo {
-  constructor(dbName = "applicationsFile.json") {
-    this.dbName = dbName;
-    this.db = new jsonDb(this.dbName);
-  }
 
   async getApplications(userId) {
-    // const allApplications = await this.db.readDb();
-    // return allApplications
     const applications = await mainDb.retrieveApplications(userId);
-    console.log(applications);
     const statuses = await mainDb.retrieveStatuses(userId);
     console.log(statuses)
-    return applications;
+    const applicationsWithStatuses = applications.map(application => {
+      const applicationStatuses = statuses.filter(status => status.applicationid === application.id);
+      return {
+        ...application,
+        statuses: applicationStatuses
+      }
+    })
+    console.log(applicationsWithStatuses)
+    return applicationsWithStatuses;
   }
 
   async saveApplication(applicationDto) {
-    const applications = await this.getApplications();
-    applications.push(applicationDto);
-    return await this.db.writeDb(applications);
+    const response = await mainDb.insertApplication(applicationDto);
+    return response
   }
 
-  // async saveApplications(applicationsDto) {
-  //   const applications = await this.getApplications();
-  //   applications.push(...applicationsDto);
-  //   return await this.db.writeDb(applications);
-  // }
+  async findApplicationById(applicationId) {
+    return await mainDb.findApplicationById(applicationId);
+  }
+
+  async deleteApplicationById(applicationId) {
+    return await mainDb.deleteApplicationById(applicationId);
+  }
 }
 
 module.exports = ApplicationsRepo;

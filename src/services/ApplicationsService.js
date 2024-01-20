@@ -14,6 +14,15 @@ class ApplicationsService {
     async saveApplication(applicationDto) {
         return await this.applicationsRepo.saveApplication(applicationDto);
     }
+
+    async deleteApplicationById(applicationId) {
+        return await this.applicationsRepo.deleteApplicationById(applicationId);
+    }
+
+    async findApplicationById(applicationId) {
+        return await this.applicationsRepo.findApplicationById(applicationId);
+    }
+
 }
 
 const applicationsService = new ApplicationsService();

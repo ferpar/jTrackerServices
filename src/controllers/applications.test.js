@@ -195,7 +195,7 @@ describe("Applications", () => {
       // act
       await saveApplication(req, res);
       // assert
-      expect(saveApplicationSpy).toHaveBeenCalledWith(req.body);
+      expect(saveApplicationSpy).toHaveBeenCalledWith({...req.body, userId: 1});
     });
   });
 });

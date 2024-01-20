@@ -4,7 +4,7 @@ const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const { getApplications, saveApplication } = require("./controllers/applications");
+const { getApplications, saveApplication, deleteApplicationById } = require("./controllers/applications");
 const ApplicationsRepo = require("./repos/applicationsRepo");
 const applicationsRepo = new ApplicationsRepo();
 
@@ -21,6 +21,9 @@ app.use(bodyParser.json());
 app.get("/applications", authenticateJWT, getApplications);
 
 app.post("/applications", authenticateJWT, saveApplication);
+
+app.delete("/applications/:id", authenticateJWT, deleteApplicationById)
+
 
 app.get("/", (req, res) => {
   res.send("You reached the applications service");
