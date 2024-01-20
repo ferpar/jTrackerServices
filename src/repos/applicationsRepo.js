@@ -29,6 +29,10 @@ class ApplicationsRepo {
   async deleteApplicationById(applicationId) {
     return await mainDb.deleteApplicationById(applicationId);
   }
+
+  async saveStatus(statusDto) {
+    return await mainDb.insertStatus(statusDto);
+  }
 }
 
 module.exports = ApplicationsRepo;

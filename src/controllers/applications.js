@@ -54,7 +54,7 @@ const saveApplication = async (req, res) => {
   }
   try {
     const application = req.body;
-    await applicationsService.saveApplication({...application, userId});
+    await applicationsService.saveApplication({ ...application, userId });
     res.status(200).json({
       success: true,
       result: {
@@ -95,7 +95,9 @@ const deleteApplicationById = async (req, res) => {
   try {
     const applicationId = req.params.id;
     // find application by id
-    const application = await applicationsService.findApplicationById(applicationId);
+    const application = await applicationsService.findApplicationById(
+      applicationId
+    );
     if (!application) {
       return res.status(404).send("Application not found");
     }
@@ -121,10 +123,55 @@ const deleteApplicationById = async (req, res) => {
       },
     });
   }
-}
+};
+
+const saveStatus = async (req, res) => {
+  // this controller is protected by the authenticateJWT middleware
+  console.log("test");
+  const user = req?.user;
+  const userId = user?.userId;
+  if (!user || !userId) {
+    return res.sendStatus(403);
+  }
+
+  if (!req.body) {
+    res.status(400).json({
+      success: false,
+      result: {
+        message: "Request body is missing",
+        status: 400,
+      },
+    });
+    return;
+  }
+  try {
+    const status = req.body;
+    const applicationId = req.params.id;
+    console.log(status);
+    console.log(applicationId);
+    await applicationsService.saveStatus({ ...status, applicationId });
+    res.status(200).json({
+      success: true,
+      result: {
+        message: "Status added successfully",
+        status: 200,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      success: false,
+      result: {
+        message: "Internal server error",
+        status: 500,
+      },
+    });
+  }
+};
 
 module.exports = {
   getApplications,
   saveApplication,
-  deleteApplicationById
+  deleteApplicationById,
+  saveStatus,
 };

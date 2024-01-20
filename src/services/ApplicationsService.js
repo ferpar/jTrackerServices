@@ -23,6 +23,10 @@ class ApplicationsService {
         return await this.applicationsRepo.findApplicationById(applicationId);
     }
 
+    async saveStatus(statusDto) {
+        return await this.applicationsRepo.saveStatus(statusDto);
+    }
+
 }
 
 const applicationsService = new ApplicationsService();
