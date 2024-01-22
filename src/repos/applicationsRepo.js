@@ -4,7 +4,7 @@ class ApplicationsRepo {
 
   async getApplications(userId) {
     const applications = await mainDb.retrieveApplications(userId);
-    const statuses = await mainDb.retrieveStatuses(userId);
+    const statuses = await mainDb.retrieveStatuses();
     console.log(statuses)
     const applicationsWithStatuses = applications.map(application => {
       const applicationStatuses = statuses.filter(status => status.applicationid === application.id);

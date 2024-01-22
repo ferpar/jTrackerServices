@@ -96,10 +96,9 @@ function makeMainDb({ dbPool }) {
       return result.rows[0];
     },
 
-    retrieveStatuses: async function (applicationId) {
+    retrieveStatuses: async function () {
       const result = await dbPool.query(
-        "SELECT * FROM ApplicationStatus WHERE applicationId = $1",
-        [applicationId]
+        "SELECT * FROM ApplicationStatus",
       );
       return result.rows;
     },

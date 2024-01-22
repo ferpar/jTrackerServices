@@ -127,7 +127,6 @@ const deleteApplicationById = async (req, res) => {
 
 const saveStatus = async (req, res) => {
   // this controller is protected by the authenticateJWT middleware
-  console.log("test");
   const user = req?.user;
   const userId = user?.userId;
   if (!user || !userId) {
@@ -147,8 +146,6 @@ const saveStatus = async (req, res) => {
   try {
     const status = req.body;
     const applicationId = req.params.id;
-    console.log(status);
-    console.log(applicationId);
     await applicationsService.saveStatus({ ...status, applicationId });
     res.status(200).json({
       success: true,
